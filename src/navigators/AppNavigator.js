@@ -39,14 +39,14 @@ export const MainScreen = createBottomTabNavigator({
     screen: ExploreTab, 
     navigationOptions: { 
       tabBarLabel: 'EXPLORE', 
-      tabBarIcon: ({focused, tintColor}) => <Icon name={'ios-search'} size={30} color={tintColor}/>
+      tabBarIcon: ({focused, tintColor}) => <Icon name="ios-search" size={30} color={tintColor}/>
     }
   },
   Profile: {
     screen: ProfileTab,
     navigationOptions: {
       tabBarLabel: 'PROFILE',
-      tabBarIcon: ({focused, tintColor}) => <Icon name={'ios-person'} size={30} color={tintColor}/>
+      tabBarIcon: ({focused, tintColor}) => <Icon name="ios-person" size={30} color={tintColor}/>
     },
   },
 }, tabConfig);

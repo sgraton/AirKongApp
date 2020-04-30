@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 
 class ExploreTab extends Component {
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     this.props.getRooms();
   }
 
@@ -59,7 +59,7 @@ class ExploreTab extends Component {
             <Text>{`${item.homeType} - ${item.bedRoom} bedroom(s)`}</Text>
           </TouchableOpacity>
         }
-        keyExtractor={(item, index) => item.id}
+        keyExtractor={(item) => item.id.toString()}
       />
     );
   }
