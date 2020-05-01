@@ -1,6 +1,5 @@
 
 import React, { Component } from 'react';
-import { StatusBar } from 'react-native';
 import configureStore from './configureStore';
 import { Provider } from 'react-redux';
 import AppWithNavigationState from './navigators/AppNavigator';
@@ -8,10 +7,11 @@ import AppWithNavigationState from './navigators/AppNavigator';
 export default class App extends Component {
   constructor() {
     super();
-    this.state = {
-      isLoading: false,
-      store: configureStore(() => this.setState({ isLoading: false })),
-    };
+    this.state = {};
+    this.state.isLoading = true;
+    this.state.store = configureStore(() => {
+      this.state.isLoading = false;
+    });
   }
 
   render() {
