@@ -9,7 +9,7 @@ import { createReduxContainer } from 'react-navigation-redux-helpers';
 
 import ExploreTab from '../components/MainScreen/ExploreTab';
 import ProfileTab from '../components/MainScreen/ProfileTab';
-import DetailScreen from '../components/DetailScreen';
+import RoomScreen from '../components/RoomScreen';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -58,11 +58,11 @@ export const AppNavigator = createStackNavigator({
       title: null,
     }
   },
-  Detail: {
-    screen: DetailScreen,
-    navigationOptions: {
-      title: 'Code4Startup',
-    },
+  Room: {
+    screen: RoomScreen,
+    navigationOptions: (props) => ({
+      title: props.navigation.state.params.item.title,
+    })
   },
 });
 
