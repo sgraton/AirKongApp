@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
 class RoomScreen extends Component {
 
   UNSAFE_componentWillMount() {
-    const selectedRoomId = this.props.navigation.state.params.item.id;
+    const selectedRoomId = this.props.route.params.item.id;
     this.props.getRoom(selectedRoomId)
   }
 
@@ -74,7 +74,7 @@ class RoomScreen extends Component {
 
     const { image, host, bedRoom, bathRoom, accomodate, summary, price } = room;
 
-    const item = this.props.navigation.state.params.item;
+    const item = this.props.route.params.item;
     return (
       <View style={{flex: 1}}>
         <ScrollView style={styles.container}>

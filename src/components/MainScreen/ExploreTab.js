@@ -10,7 +10,6 @@ import {
   Dimensions,
 } from 'react-native';
 
-import { navigate } from '../../actions/nav';
 import { getRooms } from '../../actions/room';
 
 const styles = StyleSheet.create({
@@ -37,13 +36,12 @@ const styles = StyleSheet.create({
 });
 
 class ExploreTab extends Component {
-
   componentDidMount() {
     this.props.getRooms();
   }
 
   onPress(item) {
-    this.props.navigate({ routeName: "Room", params: { item: item } });
+    this.props.navigation.navigate('Room', { item: item });
   }
 
   render() {
@@ -66,11 +64,11 @@ class ExploreTab extends Component {
 }
 
 const mapStateToProps = state => ({
-  rooms: state.room.rooms
+  rooms: state.room.rooms,
 });
 
 const mapDispatchToProps = dispatch => ({
-  navigate: (route) => dispatch(navigate(route)),
+  // navigate: (route) => dispatch(navigate(route)),
   getRooms: () => dispatch(getRooms()),
 });
 

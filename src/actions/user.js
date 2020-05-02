@@ -1,5 +1,4 @@
 import {HOST} from '../constants';
-import {resetRoute} from './nav';
 import {normalizeProfile} from '../utils';
 import {BackHandler} from 'react-native';
 
@@ -39,13 +38,10 @@ export function loginWithFacebook(facebookAccessToken) {
     })
     .then(response => response.json())
     .then(json => {
-      console.log(json);
-
       if (json.access_token) {
         dispatch(setAccessToken(json.access_token));
         dispatch(setProfile(normalizeProfile(json.email, json.fullname, json.image)));
         dispatch(setPayment(!!json.stripe_id));
-        dispatch(resetRoute({routeName: 'Main'}))
       } else {
         alert(json.error);
       }

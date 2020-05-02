@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { loginWithFacebook } from '../../actions/user';
 import { LoginManager, AccessToken } from "react-native-fbsdk";
-import { resetRoute } from '../../actions/nav';
+import { CommonActions } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,17 +45,6 @@ const styles = StyleSheet.create({
 });
 
 class AuthenticationScreen extends Component {
-  accessToken = this.props.accessToken;
-
-  componentWillMount() {
-    console.log("Will mount Authentication");
-    const { resetRoute } = this.props;
-    if (this.accessToken) {
-      console.log("Redirection vers Main car authentifié...");
-      resetRoute({routeName: 'Main'});
-    }
-  }
-
   onFBAuth() {
     console.log("Facebook Login");
 
@@ -67,8 +56,16 @@ class AuthenticationScreen extends Component {
         } else {
           AccessToken.getCurrentAccessToken()
           .then(data => {
-            alert(data.accessToken.toString())
+            // alert(data.accessToken.toString());
             this.props.loginWithFacebook(data.accessToken.toString());
+            this.props.navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [
+                  { name: 'Main' },
+                ],
+              })
+            );
           })
         }
       },
@@ -79,6 +76,17 @@ class AuthenticationScreen extends Component {
   }
 
   render() {
+    if (this.props.accessToken) {
+      this.props.navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            { name: 'Main' },
+          ],
+        })
+      );
+    }
+
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Find your home at AirGodzilla</Text>
@@ -92,12 +100,11 @@ class AuthenticationScreen extends Component {
 }
 
 const mapStateToProps = state => ({
-  accessToken: state.user.accessToken
+  accessToken: state.user.accessToken,
 });
 
 const mapDispatchToProps = dispatch => ({
   loginWithFacebook: (facebookAccessToken) => dispatch(loginWithFacebook(facebookAccessToken)),
-  resetRoute: (route) => dispatch(resetRoute(route)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationScreen);

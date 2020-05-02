@@ -1,7 +1,9 @@
 
 import React, { Component } from 'react';
-import configureStore from './configureStore';
 import { Provider } from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+
+import configureStore from './configureStore';
 import AppWithNavigationState from './navigators/AppNavigator';
 
 export default class App extends Component {
@@ -21,7 +23,9 @@ export default class App extends Component {
       null
       :
       <Provider store={this.state.store}>
-        <AppWithNavigationState />
+        <NavigationContainer>
+          <AppWithNavigationState />
+        </NavigationContainer>
       </Provider>
     );
   }
