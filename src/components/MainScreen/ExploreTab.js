@@ -106,7 +106,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  // navigate: (route) => dispatch(navigate(route)),
   getRooms: () => dispatch(getRooms()),
 });
 

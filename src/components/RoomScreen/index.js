@@ -68,6 +68,10 @@ class RoomScreen extends Component {
     this.props.getRoom(selectedRoomId)
   }
 
+  onCheckAvailability() {
+    this.props.navigation.navigate('Booking');
+  }
+
   render() {
     const room = this.props.room;
     if (!room) return null;
@@ -114,7 +118,7 @@ class RoomScreen extends Component {
             <Text style={{fontWeight: 'bold'}}>{`$${price}`}</Text> per night
           </Text>
           <GodzillaButton 
-            onPress={ () => { alert("Check Availability") }}
+            onPress={ () => { this.onCheckAvailability() }}
             backgroundColor = '#FF5A60'
             textColor = 'white'
             label = 'Check Availability'

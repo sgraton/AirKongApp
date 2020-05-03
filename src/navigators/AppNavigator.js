@@ -10,6 +10,7 @@ import ProfileTab from '../components/MainScreen/ProfileTab';
 import RoomScreen from '../components/RoomScreen';
 import AuthenticationScreen from '../components/AuthenticationScreen';
 import FilterModal from '../components/FilterModal';
+import BookingModal from '../components/BookingModal';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -64,7 +65,8 @@ class AppWithNavigationState extends Component {
           <AppNavigator.Screen name="Main" component={MainStackScreen} options={{ headerShown: false }} />
           <AppNavigator.Screen name="Authentication" component={AuthenticationScreen} options={{ headerShown: false }} />
           <AppNavigator.Screen name="Room" component={RoomScreen} options={({ route }) => ({ title: route.params.item.title })} />
-          <AppNavigator.Screen name="Filter" component={FilterModal} options={{headerStyle: {backgroundColor: '#007B7F',elevation: 0},headerTintColor: '#E2E2E2'}} />
+          <AppNavigator.Screen name="Filter" component={FilterModal} options={{title: '',headerStyle: {backgroundColor: '#007B7F',elevation: 0},headerTintColor: '#E2E2E2'}} />
+          <AppNavigator.Screen name="Booking" component={BookingModal} options={{title: '', headerStyle: {backgroundColor: '#007B7F',elevation: 0},headerTintColor: '#E2E2E2'}} />
         </AppNavigator.Navigator> 
       </View>
     );
