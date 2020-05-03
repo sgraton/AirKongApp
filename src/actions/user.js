@@ -57,8 +57,37 @@ export function logout() {
     dispatch(setProfile(null));
     dispatch(setPayment(null));
 
-    fetch(`${HOST}/api/v1/logout?access_token=${accessToken}`)
+    return fetch(`${HOST}/api/v1/logout?access_token=${accessToken}`, {
+      method: 'GET',
+      body: JSON.stringify({
+        access_token: accessToken,
+      }),
+      headers: {"content-type": "application/json"},
+    })
     .then(response => BackHandler.exitApp())
     .catch(e => BackHandler.exitApp());
   };
+}
+
+export function addPayment(stripeToken) {
+  return (dispatch, getState) => {
+    const accessToken = getState().user.accessToken;
+    return fetch(`${HOST}/api/v1/payments`, {
+      method: 'POST',
+      body: JSON.stringify({
+        stripe_token: stripeToken,
+        access_token: accessToken,
+      }),
+      headers: {"content-type": "application/json"},
+    })
+    .then(response => response.json())
+    .then(json => {
+      if (json.is_success) {
+        dispatch(setPayment(true));
+      } else {
+        alert(json.error);
+      }
+    })
+    .catch(e => alert(e));
+  }
 }
