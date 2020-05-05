@@ -62,6 +62,11 @@ const styles = StyleSheet.create({
 
 class CalendarModal extends Component {
 
+  UNSAFE_componentWillMount() {
+    const selectedRoomId = this.props.route.params.item.id;
+    this.props.getReservations(selectedRoomId);
+  }
+
   onReservationPress(reservation) {
     const selectedRoomId = this.props.route.params.item.id;
     const changeReservation = this.props.changeReservation;
@@ -77,9 +82,6 @@ class CalendarModal extends Component {
   }
 
   render() {
-    const selectedRoomId = this.props.route.params.item.id;
-    this.props.getReservations(selectedRoomId);
-
     if (!this.props.reservations) return null;
 
     const dates = moment.range(moment(), moment().add(1, 'months')).toArray('days');
