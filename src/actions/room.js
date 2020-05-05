@@ -75,7 +75,6 @@ export function bookRoom(roomId, startDate, endDate) {
         })
         .then(response => response.json())
         .then(json => {
-            console.log(json);
             if (json.is_success) {
                 alert("Booked successfully");
             } else {

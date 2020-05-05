@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { CommonActions } from '@react-navigation/native';
 import { 
   StyleSheet,
   View,
@@ -56,17 +57,38 @@ class ProfileTab extends Component {
 
   addPayment = async() => {
     const token = await stripe.paymentRequestWithCardForm(options);
-    // console.log(token);
     this.props.addPayment(token.tokenId)
   }
 
   switchType() {
+    const firstRouteName = this.props.navigation.dangerouslyGetState().routes[0].name;
 
+    if (firstRouteName === 'Explore') {
+      this.props.navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            { name: 'Host' },
+          ],
+        })
+      );
+    } else {
+      this.props.navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            { name: 'Main' },
+          ],
+        })
+      );
+    }
   }
 
   render() {
+    const firstRouteName = this.props.navigation.dangerouslyGetState().routes[0].name;
     const profile = this.props.profile || {}
     const payment = this.props.payment
+
     return (
       <ScrollView style={styles.container}>
         <View style={styles.profile}>
@@ -79,7 +101,7 @@ class ProfileTab extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => this.switchType()} style={styles.menuButton}>
-          <Text style={styles.menuButtonText}>Switch To Host</Text>
+          <Text style={styles.menuButtonText}>Switch To {`${firstRouteName === 'Explore' ? 'Host' : 'Guest'}`}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => this.props.logout()} style={styles.menuButton}>
@@ -94,6 +116,7 @@ class ProfileTab extends Component {
 const mapStateToProps = state => ({
   profile: state.user.profile,
   payment: state.user.payment,
+  routes: state.routes,
 });
 
 const mapDispatchToProps = dispatch => ({

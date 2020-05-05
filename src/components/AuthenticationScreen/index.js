@@ -81,7 +81,7 @@ class AuthenticationScreen extends Component {
         CommonActions.reset({
           index: 1,
           routes: [
-            { name: 'Main' },
+            { name: 'Host' },
           ],
         })
       );

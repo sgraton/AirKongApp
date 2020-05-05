@@ -7,6 +7,7 @@ export const SET_PROFILE = 'SET_PROFILE';
 export const SET_PAYMENT = 'SET_PAYMENT';
 
 export function setAccessToken(accessToken) {
+
   return {
     type: SET_ACCESS_TOKEN,
     accessToken,
@@ -57,13 +58,7 @@ export function logout() {
     dispatch(setProfile(null));
     dispatch(setPayment(null));
 
-    return fetch(`${HOST}/api/v1/logout?access_token=${accessToken}`, {
-      method: 'GET',
-      body: JSON.stringify({
-        access_token: accessToken,
-      }),
-      headers: {"content-type": "application/json"},
-    })
+    return fetch(`${HOST}/api/v1/logout?access_token=${accessToken}`)
     .then(response => BackHandler.exitApp())
     .catch(e => BackHandler.exitApp());
   };
