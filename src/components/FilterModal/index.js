@@ -8,6 +8,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
@@ -59,15 +60,13 @@ class FilterModal extends Component {
 
     onStartDateChange = (event, date) => {
       if (date !== undefined) {
-        console.log(date);
-        this.setState({startDate: moment(date).format('DD-MM-YYYY'), showStartDate: false});
+        this.setState({startDate: moment(date).format('DD-MM-YYYY'), showStartDate: Platform.OS === 'ios'});
       }
     }
 
     onEndDateChange = (event, date) => {
       if (date !== undefined) {
-
-        this.setState({endDate: moment(date).format('DD-MM-YYYY'), showEndDate: false});
+        this.setState({endDate: moment(date).format('DD-MM-YYYY'), showEndDate: Platform.OS === 'ios'});
       }
     }
 
