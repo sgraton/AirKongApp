@@ -8,8 +8,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  DatePickerAndroid,
 } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
+
 
 import GodzillaButton from '../Shared/GodzillaButton';
 import { setFilter, getRooms } from '../../actions/room';
@@ -44,43 +46,38 @@ const styles = StyleSheet.create({
 });
 
 class FilterModal extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
             address: props.filter.address, 
             startDate: props.filter.startDate,
             endDate: props.filter.endDate,
+            showStartDate: false, 
+            showEndDate: false,
         }
     }
 
-    onStartDateChange = async () => {
-        try {
-            const {action, year, month, day} = await DatePickerAndroid.open({
-              minDate: new Date(),
-              date: new Date(),
-            });
-            if (action !== DatePickerAndroid.dismissedAction) {
-              this.setState({startDate: `${day}-${month+1}-${year}`})
-            }
-        } catch ({code, message}) {
-            console.warn('Cannot open date picker', message);
-        }
+    onStartDateChange = (event, date) => {
+      if (date !== undefined) {
+        console.log(date);
+        this.setState({startDate: moment(date).format('DD-MM-YYYY'), showStartDate: false});
+      }
     }
 
-    onEndDateChange = async () => {
-        try {
-            const {action, year, month, day} = await DatePickerAndroid.open({
-              minDate: new Date(),
-              date: new Date(),
-            });
-            if (action !== DatePickerAndroid.dismissedAction) {
-              this.setState({endDate: `${day}-${month+1}-${year}`})
-            }
-        } catch ({code, message}) {
-            console.warn('Cannot open date picker', message);
-        }
+    onEndDateChange = (event, date) => {
+      if (date !== undefined) {
+
+        this.setState({endDate: moment(date).format('DD-MM-YYYY'), showEndDate: false});
+      }
     }
+
+    showStart = () => {
+      this.setState({showStartDate: true});
+    };
+
+    showEnd = () => {
+      this.setState({showEndDate: true});
+    };
 
     onSearch() {
       // Step 1 : Set filter setFilter()
@@ -105,13 +102,13 @@ class FilterModal extends Component {
           />
 
             <View style={styles.datePicker}>
-                <TouchableOpacity style={styles.datePickerButton} onPress={ () => this.onStartDateChange() }>
+                <TouchableOpacity style={styles.datePickerButton} onPress={ () => this.showStart() }>
                     <Text style={styles.datePickerText}>{this.state.startDate || 'Start Date'}</Text>
                 </TouchableOpacity>
 
                 <Text style={[styles.datePickerText, {flex : 1}]}>to</Text>
 
-                <TouchableOpacity style={styles.datePickerButton} onPress={ () => this.onEndDateChange() }>
+                <TouchableOpacity style={styles.datePickerButton} onPress={ () => this.showEnd() }>
                     <Text style={styles.datePickerText}>{this.state.endDate || 'End Date'}</Text>
                 </TouchableOpacity>
             </View>
@@ -122,8 +119,35 @@ class FilterModal extends Component {
               textColor='#E2E2E2'
               label='Search'
             />
+
+            {this.renderStartPicker()}
+            {this.renderEndPicker()}
       </ScrollView>
     );
+  }
+
+  renderStartPicker() {
+    if (this.state.showStartDate) {
+      return (<DateTimePicker
+        value={new Date()}
+        minimumDate={new Date()}
+        mode="date"
+        onChange={this.onStartDateChange}
+      />
+      );
+    }
+  }
+
+  renderEndPicker() {
+    if (this.state.showEndDate) {
+      return (<DateTimePicker
+        value={new Date()}
+        minimumDate={new Date()}
+        mode="date"
+        onChange={this.onEndDateChange}
+      />
+      );
+    }
   }
 }
 
