@@ -72,9 +72,11 @@ class FilterModal extends Component {
 
     showStart = () => {
       this.setState({showStartDate: true});
+      this.setState({showEndDate: false});
     };
 
     showEnd = () => {
+      this.setState({showStartDate: false});
       this.setState({showEndDate: true});
     };
 
