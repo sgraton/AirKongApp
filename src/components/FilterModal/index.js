@@ -55,19 +55,19 @@ class FilterModal extends Component {
             endDate: props.filter.endDate,
             showStartDate: false, 
             showEndDate: false,
-        }
+            dpStartDate: new Date(),
+            dpEndDate: new Date(),
+        };
     }
 
-    onStartDateChange = (event, date) => {
-      if (date !== undefined) {
-        this.setState({startDate: moment(date).format('DD-MM-YYYY'), showStartDate: Platform.OS === 'ios'});
-      }
+    onStartDateChange = (event, selectedDate) => {
+      const currentDate = selectedDate || this.state.startDate;
+      this.setState({dpStartDate: currentDate, startDate: moment(currentDate).format('DD-MM-YYYY'), showStartDate: Platform.OS === 'ios'});
     }
 
-    onEndDateChange = (event, date) => {
-      if (date !== undefined) {
-        this.setState({endDate: moment(date).format('DD-MM-YYYY'), showEndDate: Platform.OS === 'ios'});
-      }
+    onEndDateChange = (event, selectedDate) => {
+      const currentDate = selectedDate || this.state.endDate;
+      this.setState({dpEndDate: currentDate, endDate: moment(currentDate).format('DD-MM-YYYY'), showEndDate: Platform.OS === 'ios'});
     }
 
     showStart = () => {
@@ -89,65 +89,65 @@ class FilterModal extends Component {
       this.props.getRooms();
     }
 
-  render() {
-    return (
-      <ScrollView style={styles.container} contentContainerStyle={{ padding: 20 }}>
-          <Text style={styles.address}>WHERE TO ?</Text>
-          <TextInput 
-            style={styles.addressInput} 
-            underlineColorAndroid='#E2E2E2' 
-            value={this.state.address} 
-            onChangeText={address => this.setState({address})} 
-          />
-
-            <View style={styles.datePicker}>
-                <TouchableOpacity style={styles.datePickerButton} onPress={ () => this.showStart() }>
-                    <Text style={styles.datePickerText}>{this.state.startDate || 'Start Date'}</Text>
-                </TouchableOpacity>
-
-                <Text style={[styles.datePickerText, {flex : 1}]}>to</Text>
-
-                <TouchableOpacity style={styles.datePickerButton} onPress={ () => this.showEnd() }>
-                    <Text style={styles.datePickerText}>{this.state.endDate || 'End Date'}</Text>
-                </TouchableOpacity>
-            </View>
-
-            <GodzillaButton
-              onPress={ () => this.onSearch() } 
-              backgroundColor='#2F868E' 
-              textColor='#E2E2E2'
-              label='Search'
+    render() {
+      return (
+        <ScrollView style={styles.container} contentContainerStyle={{ padding: 20 }}>
+            <Text style={styles.address}>WHERE TO ?</Text>
+            <TextInput 
+              style={styles.addressInput} 
+              underlineColorAndroid='#E2E2E2' 
+              value={this.state.address} 
+              onChangeText={address => this.setState({address})} 
             />
 
-            {this.renderStartPicker()}
-            {this.renderEndPicker()}
-      </ScrollView>
-    );
-  }
+              <View style={styles.datePicker}>
+                  <TouchableOpacity style={styles.datePickerButton} onPress={ () => this.showStart() }>
+                      <Text style={styles.datePickerText}>{this.state.startDate || 'Start Date'}</Text>
+                  </TouchableOpacity>
 
-  renderStartPicker() {
-    if (this.state.showStartDate) {
-      return (<DateTimePicker
-        value={new Date()}
-        minimumDate={new Date()}
-        mode="date"
-        onChange={this.onStartDateChange}
-      />
+                  <Text style={[styles.datePickerText, {flex : 1}]}>to</Text>
+
+                  <TouchableOpacity style={styles.datePickerButton} onPress={ () => this.showEnd() }>
+                      <Text style={styles.datePickerText}>{this.state.endDate || 'End Date'}</Text>
+                  </TouchableOpacity>
+              </View>
+
+              <GodzillaButton
+                onPress={ () => this.onSearch() } 
+                backgroundColor='#2F868E' 
+                textColor='#E2E2E2'
+                label='Search'
+              />
+
+              {this.renderStartPicker()}
+              {this.renderEndPicker()}
+        </ScrollView>
       );
     }
-  }
 
-  renderEndPicker() {
-    if (this.state.showEndDate) {
-      return (<DateTimePicker
-        value={new Date()}
-        minimumDate={new Date()}
-        mode="date"
-        onChange={this.onEndDateChange}
-      />
-      );
+    renderStartPicker() {
+      if (this.state.showStartDate) {
+        return (<DateTimePicker
+          value={this.state.dpStartDate}
+          minimumDate={new Date()}
+          mode="date"
+          onChange={this.onStartDateChange}
+        />
+        );
+      }
     }
-  }
+
+    renderEndPicker() {
+      if (this.state.showEndDate) {
+        return (<DateTimePicker
+          value={this.state.dpEndDate}
+          minimumDate={this.state.dpStartDate}
+          mode="date"
+          onChange={this.onEndDateChange}
+        />
+        );
+      }
+    }
 }
 
 const mapStateToProps = state => ({
