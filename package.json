@@ -18,7 +18,7 @@
     "@react-navigation/stack": "^5.2.18",
     "jetifier": "^1.6.5",
     "react": "^16.11.0",
-    "react-native": "^0.62.2",
+    "react-native": "^0.62.3",
     "react-native-dates": "^2.0.4",
     "react-native-eject": "^0.1.2",
     "react-native-fbsdk": "^1.1.2",
